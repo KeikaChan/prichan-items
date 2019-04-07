@@ -1,5 +1,7 @@
 package seasons
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 class Coord {
     //名前はHTMLの要素名とpython実装時に合わせています。
 
@@ -23,6 +25,7 @@ class Coord {
     var season: String = "" // 新しく追加。シーズン season1 (無印) / season 2 (ジュエル)
     var note: String = ""
 
+    @JsonIgnore
     override fun toString(): String {
         return "name:" + name + "\n" +
                 "image_url:" + image_url + "\n" +
@@ -45,10 +48,35 @@ class Coord {
                 "note:" + note + "\n"
     }
 
+    override fun hashCode(): Int {
+        val txt = "name:" + name + "\n" +
+                "image_url:" + image_url + "\n" +
+                "category:" + category + "\n" +
+                "item_id:" + item_id + "\n" +
+                "ticket_id:" + ticket_id + "\n" +
+                "color:" + color + "\n" +
+                "brand:" + brand + "\n" +
+                "brand_image_url:" + brand_image_url + "\n" +
+                "genre:" + genre + "\n" +
+                "genre_image_url:" + genre_image_url + "\n" +
+                "rarity:" + rarity + "\n" +
+                "like:" + like + "\n" +
+                "outfit_id:" + outfit_id + "\n" +
+                "outfit_image_url:" + outfit_image_url + "\n" +
+                "detail_url:" + detail_url + "\n" +
+                "series_name:" + series_name + "\n" +
+                "series_url:" + series_url + "\n" +
+                "season:" + season + "\n" +
+                "note:" + note + "\n"
+        return txt.hashCode()
+    }
+
+    @JsonIgnore
     fun getCSVTitle(): String {
         return "name,image_url,category,item_id,ticket_id,color,brand,brand_image_url,genre,genre_image_url,rarity,like,outfit_id,outfit_image_url,detail_url,series_name,series_url,season,note\n"
     }
 
+    @JsonIgnore
     fun getCSVString(): String {
         return "$name,$image_url,$category,$item_id,$ticket_id,$color,$brand,$brand_image_url,$genre,$genre_image_url,$rarity,$like,$outfit_id,$outfit_image_url,$detail_url,$series_name,$series_url,$season,$note\n"
     }

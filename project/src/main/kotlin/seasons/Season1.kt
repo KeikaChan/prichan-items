@@ -6,21 +6,22 @@ class Season1 : Season {
 
     override fun crawsCoords(baseUrl: String) {
         val navigationList = collectionNav(baseUrl)
-        val coordList = mutableListOf<Coord>()
+        val coordList = hashSetOf<Coord>()
 
         navigationList.forEach {
             coordList.addAll(collectDetails(it.first, it.second))
         }
 
         coordList.forEach { println(it.toString()) }
-        exportCSV(coordList, "output.csv")
+        Common.exportCSV(coordList.toList(), "output.csv")
+        Common.exportJson(coordList.toList(), "jsonout.json")
     }
 
     /**
      * ナビゲーションデータの収集
      */
     fun collectionNav(url: String): List<Pair<String, String>> {
-        val navigations = connection(url)!!.getElementsByClass("items-nav").select("li")
+        val navigations = Common.connection(url)!!.getElementsByClass("items-nav").select("li")
         var navigationList = mutableListOf<Pair<String, String>>()
         navigations.forEach {
             var nameElement = it.getElementsByTag("a").first().toString()
@@ -30,12 +31,14 @@ class Season1 : Season {
             navigationList.add(element)
         }
         // first が 名前　secondがurl
+        val urlHashSet = hashSetOf<String>()
         navigationList =
             navigationList.filterTo(mutableListOf()) {
-                !it.second.contains("index.html") && !it.second.contains("promotion.html") && !it.second.contains(
-                    "ticket.html"
-                )
-            } //index.htmlになっているのを弾く
+                !it.second.contains("index.html")
+                        && !it.second.contains("promotion.html")
+                        && !it.second.contains("ticket.html")
+                        && urlHashSet.add(it.second)
+            } //使わないやつを弾く
 
 
         return navigationList
@@ -46,7 +49,7 @@ class Season1 : Season {
      */
     fun collectDetails(listName: String, listUrl: String): List<Coord> {
         println(listName + " " + listUrl)
-        val coorditem = connection(listUrl)!!.getElementsByClass("coordinate-list")
+        val coorditem = Common.connection(listUrl)!!.getElementsByClass("coordinate-list")
         val coords = mutableListOf<Coord>()
 
         coorditem.forEach {
@@ -78,7 +81,7 @@ class Season1 : Season {
 
 
             var coord = Coord()
-            val article = connection(detailUrl)!!
+            val article = Common.connection(detailUrl)!!
             val detailsElements = article.getElementsByClass("-details").first().getElementsByClass("-detail")
 
             coord.name = article.getElementsByClass("-title").first().text()

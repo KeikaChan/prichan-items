@@ -1,5 +1,6 @@
 package seasons
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -42,6 +43,16 @@ class Common {
                 coordList.forEach {
                     appendText(it.getCSVString())
                 }
+            }
+        }
+
+        /**
+         * jsonとして出力
+         */
+        fun exportJson(coordList: List<Coord>, output: String){
+
+            File(output).apply {
+                writeText(ObjectMapper().writeValueAsString(coordList))
             }
         }
 
