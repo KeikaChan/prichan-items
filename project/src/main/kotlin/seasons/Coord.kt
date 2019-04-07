@@ -1,3 +1,5 @@
+package seasons
+
 class Coord {
     //名前はHTMLの要素名とpython実装時に合わせています。
 
