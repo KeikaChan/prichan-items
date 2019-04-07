@@ -41,6 +41,7 @@ class Crawl {
         }
 
         coordList.forEach { println(it.toString()) }
+        exportCSV(coordList, "output.csv")
     }
 /**/
     /**
@@ -186,5 +187,17 @@ class Crawl {
         return document
     }
 
+    /**
+     * csvエクスポート用
+     */
+    fun exportCSV(coordList: List<Coord>, output: String) {
+        File(output).apply {
+            appendText(coordList.first().getCSVTitle())
+
+            coordList.forEach {
+                appendText(it.getCSVString())
+            }
+        }
+    }
 
 }
