@@ -18,6 +18,6 @@ class Coord{
     var detail_url :String =""
     var series_name :String =""
     var series_url :String =""
-    var season :String ="" // あたしく追加。シーズン season1 (無印) / season 2 (ジュエル)
+    var season :String ="" // 新しく追加。シーズン season1 (無印) / season 2 (ジュエル)
     var note :String =""
 }

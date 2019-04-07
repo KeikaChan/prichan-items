@@ -1,6 +1,7 @@
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 import java.io.File
 
 fun main() {
@@ -32,10 +33,10 @@ class Crawl {
 
     fun collectFirst() {
         // とりあえずリストの最初を辿れるようにする。
-        collection_nav()
+        collectionNav()
     }
 
-    fun collection_nav() {
+    fun collectionNav() {
         val navigations = connection(coordeTest)!!.getElementsByClass("items-nav").select("li")
         var navigationList = mutableListOf<Pair<String, String>>()
         navigations.forEach {
@@ -49,13 +50,27 @@ class Crawl {
         navigationList =
             navigationList.filterTo(mutableListOf()) { !it.second.contains("index.html") } //index.htmlになっているのを弾く
 //        navigationList.forEach { println(it.first + ":" + it.second) }
-        collection_outfit(navigationList.first().second)
+        collectionOutfit(navigationList.first().second)
     }
 
-    fun collection_outfit(listUrl : String) {
-        val navigations = connection(listUrl)!!.getElementsByClass("coordinate-list")
-        navigations.forEach { println(it.toString()) }
+    fun collectionOutfit(listUrl: String) {
+        val coorditem = connection(listUrl)!!.getElementsByClass("coordinate-list")
+//        coorditem.forEach { println(it.toString()) }
+        val coords = mutableListOf<Coord>()
 
+        coorditem.forEach {
+            val outfits =
+                it.getElementsByClass("-outfit").first().getElementsByTag("img").first().attr("abs:data-src") + ""
+            var details = mutableListOf<String>()
+
+            it.getElementsByTag("a").forEach { element ->
+                details.add(element.attr("abs:href"))
+            }
+        }
+
+    }
+
+    fun collectionDetails(detailElement: Elements): List<Coord> {
     }
 
 
