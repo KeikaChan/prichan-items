@@ -2,7 +2,7 @@ package seasons
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 
-class Coord {
+open class Coord {
     //名前はHTMLの要素名とpython実装時に合わせています。
 
     var name: String = ""
@@ -72,12 +72,12 @@ class Coord {
     }
 
     @JsonIgnore
-    fun getCSVTitle(): String {
+    open fun getCSVTitle(): String {
         return "name,image_url,category,item_id,ticket_id,color,brand,brand_image_url,genre,genre_image_url,rarity,like,outfit_id,outfit_image_url,detail_url,series_name,series_url,season,note\n"
     }
 
     @JsonIgnore
-    fun getCSVString(): String {
+    open fun getCSVString(): String {
         return "$name,$image_url,$category,$item_id,$ticket_id,$color,$brand,$brand_image_url,$genre,$genre_image_url,$rarity,$like,$outfit_id,$outfit_image_url,$detail_url,$series_name,$series_url,$season,$note\n"
     }
 }

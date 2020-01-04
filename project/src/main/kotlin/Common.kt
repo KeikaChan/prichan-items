@@ -13,8 +13,8 @@ class Common {
     companion object {
         const val coordeTest = "https://prichan.jp/season1/items/"
         const val urlString = "./urls.txt"
-        const val first = "1"
-        const val second = "2"
+        const val first = "season1"
+        const val second = "juel"
 
         /**
          * 接続用の関数
