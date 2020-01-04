@@ -1,5 +1,3 @@
-package seasons
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup

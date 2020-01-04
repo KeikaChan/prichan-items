@@ -1,17 +1,16 @@
-package seasons
+package resource
 
-import Common
-import Coord
-import Season
 import org.jsoup.Jsoup
+import Common
+import Season
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class Season1 : Season {
+class Season1Resource : Season {
 
     override fun crawsCoords(baseUrl: String) {
         val navigationList = collectionNav(baseUrl)
-        val coordList = hashSetOf<Coord>()
+        val coordList = hashSetOf<Resource>()
 
         navigationList.forEach {
             coordList.addAll(collectDetails(it.first, it.second))
@@ -20,9 +19,9 @@ class Season1 : Season {
 //        coordList.forEach { println(it.toString()) }
         Common.exportCSV(
             coordList.toList(),
-            "output_${currentDate}.csv"
+            "resoutput_${currentDate}.csv"
         )
-        Common.exportJson(coordList.toList(), "jsonout_${currentDate}.json")
+        Common.exportJson(coordList.toList(), "resjsonout_${currentDate}.json")
     }
 
     /**
@@ -55,10 +54,10 @@ class Season1 : Season {
     /**
      * それぞれのコーデデータの収集
      */
-    fun collectDetails(listName: String, listUrl: String): List<Coord> {
+    fun collectDetails(listName: String, listUrl: String): List<Resource> {
         println(listName + " " + listUrl)
         val coorditem = Common.connection(listUrl)!!.getElementsByClass("coordinate-list")
-        val coords = mutableListOf<Coord>()
+        val coords = mutableListOf<Resource>()
 
         coorditem.forEach {
             val outfit =
@@ -77,9 +76,9 @@ class Season1 : Season {
         return coords
     }
 
-    fun collectionDetails(listName: String, listUrl: String, outfitUrl: String, detailsUrl: List<String>): List<Coord> {
+    fun collectionDetails(listName: String, listUrl: String, outfitUrl: String, detailsUrl: List<String>): List<Resource> {
 
-        var coordList = mutableListOf<Coord>()
+        var coordList = mutableListOf<Resource>()
 
         detailsUrl.forEach { detailUrl ->
             // 並び順
@@ -88,7 +87,7 @@ class Season1 : Season {
             // detail_url	series_name	series_url
 
 
-            var coord = Coord()
+            var coord = Resource()
             val article = Common.connection(detailUrl)!!
             val detailsElements = article.getElementsByClass("-details").first().getElementsByClass("-detail")
 
@@ -109,12 +108,12 @@ class Season1 : Season {
 
             coord.color = detailsElements[1].getElementsByClass("-value").text()
 
-            val brand = coord.brand_image_url.split("/").last()
-                .replace("logo-", "")
-                .replace(".png", "")
             val brand_image_url = article.getElementsByClass("-detail -brand").first()
                 .getElementsByTag("img").first()
                 .attr("abs:data-src")
+            val brand = coord.brand_image_url.split("/").last()
+                .replace("logo-", "")
+                .replace(".png", "")
 
             coord.brand_image_url = if (!brand_image_url.contains("%brand%")) brand_image_url else ""
 
@@ -152,5 +151,4 @@ class Season1 : Season {
         }
         return coordList
     }
-
 }

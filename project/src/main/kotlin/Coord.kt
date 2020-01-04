@@ -1,5 +1,3 @@
-package seasons
-
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 open class Coord {

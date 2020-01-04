@@ -1,10 +1,8 @@
-import org.jsoup.Jsoup
-import seasons.Coord
-import seasons.Season
-import seasons.Season1
-import java.io.File
+import resource.Season1Resource
 
 fun main() {
-    val one: Season =Season1()
+    val one: Season = Season1Resource()
     one.crawsCoords("https://prichan.jp/season1/items/")
+//    val juel: Season = Juel()
+//    juel.crawsCoords("https://prichan.jp/item/J01/")
 }
