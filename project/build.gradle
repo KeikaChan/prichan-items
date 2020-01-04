@@ -25,7 +25,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
 }
 
-
+mainClassName = 'MainKt'
 
 sourceSets {
     main.java.srcDirs = ['src/main/kotlin']
